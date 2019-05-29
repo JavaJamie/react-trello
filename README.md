@@ -109,8 +109,6 @@ This is the container component that encapsulates the lanes and cards
 | onLaneAdd           | function | Called when a new lane is added: `onLaneAdd(params)`                                                                     |
 | addCardLink         | node     | Pass custom element to replace the `Add Card` link at the end of the lane (when board is editable)                             |
 | newCardTemplate     | node     | Pass a custom new card template to add new cards to a lane (when board is editable)                                            |
-| newLaneTemplate     | node     | Pass a custom new lane template to add new lanes to a board (when board is editable) 
-                                    |
 | hideCardDeleteIcon  | boolean  | Disable showing the delete icon to the top right corner of the card (when board is editable)                                   |
 | onCardDelete        | function | Called when a card is deleted: `onCardDelete(cardId, laneId)`                                                                  |
 | onLaneClick         | function | Called when a lane is clicked: `onLaneClick(laneId)`. Card clicks are not propagated to lane click event                       |
@@ -122,6 +120,8 @@ This is the container component that encapsulates the lanes and cards
 | customLaneHeader    | element  | Pass custom lane header as react component to modify appearance                                                                |
 | data                | object   | Actual board data in the form of json                                                                                          |
 | tagStyle            | object   | If cards have tags, use this prop to modify their style                                                                        |
+| newLaneTemplate     | node     | Pass a custom new lane template to add new lanes to a board (when board is editable) 
+                                     |
 
 Refer to `stories` folder for examples on many more options for customization.
 
