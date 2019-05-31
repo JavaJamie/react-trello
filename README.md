@@ -121,7 +121,7 @@ This is the container component that encapsulates the lanes and cards
 | data                | object   | Actual board data in the form of json                                                                                          |
 | tagStyle            | object   | If cards have tags, use this prop to modify their style                                                                        |
 | newLaneTemplate     | node     | Pass a custom new lane template to add new lanes to a board (when board is editable) 
-                                     |
+                                     
 
 Refer to `stories` folder for examples on many more options for customization.
 
