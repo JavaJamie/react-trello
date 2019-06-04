@@ -46,10 +46,23 @@ class BoardContainer extends Component {
   }
 
   onLaneDrop = ({removedIndex, addedIndex, payload}) => {
-    const {actions, handleLaneDragEnd} = this.props
-    if (removedIndex !== addedIndex) {
-      actions.moveLane({oldIndex: removedIndex, newIndex: addedIndex})
-      handleLaneDragEnd(removedIndex, addedIndex, payload)
+    const {actions, handleLaneDragEnd, reducerData} = this.props;
+    let drop = false;
+
+    reducerData.lanes.map((lane, index) => {
+      if (index == addedIndex) {
+        if (lane.allowDrag !== false) {
+          drop = true;
+          return;
+        }
+      }
+    })
+
+    if (drop) {
+      if (removedIndex !== addedIndex) {
+        actions.moveLane({oldIndex: removedIndex, newIndex: addedIndex})
+        handleLaneDragEnd(removedIndex, addedIndex, payload)
+      }
     }
   }
   getCardDetails = (laneId, cardIndex) => {
@@ -119,7 +132,8 @@ class BoardContainer extends Component {
   }
 
   render() {
-    const {id, reducerData, draggable, laneDraggable, laneDragClass, style, onDataChange, onLaneScroll, onCardClick, onLaneClick, onLaneAdd, onCardDelete, onCardAdd, addLaneTitle, editable, canAddLanes, ...otherProps} = this.props
+    const {id, reducerData, draggable, laneDraggable, laneDragClass, style, onDataChange, onLaneScroll,
+        onCardClick, onLaneClick, onLaneAdd, onCardDelete, onCardAdd, addLaneTitle, editable, canAddLanes, onAdd, ...otherProps} = this.props
     const {addLaneMode} = this.state
     // Stick to whitelisting attributes to segregate board and lane props
     const passthroughProps = pick(this.props, [
@@ -162,7 +176,7 @@ class BoardContainer extends Component {
           getChildPayload={index => this.getLaneDetails(index)}
           groupName={this.groupName}>
           {reducerData.lanes.map((lane, index) => {
-            const {id, droppable, ...otherProps} = lane
+            const {id, droppable, allowDrag, ...otherProps} = lane;
             const laneToRender = (
               <Lane
                 key={id}
@@ -175,7 +189,8 @@ class BoardContainer extends Component {
                 {...passthroughProps}
               />
             )
-            return draggable && laneDraggable ? <Draggable key={lane.id}>{laneToRender}</Draggable> : <span key={lane.id}>{laneToRender}</span>
+            return draggable && laneDraggable && (allowDrag === undefined ? true : allowDrag) ? 
+              <Draggable key={lane.id}>{laneToRender}</Draggable> : <span key={lane.id}>{laneToRender}</span>
           })}
         </Container>
         </PopoverWrapper>
@@ -191,7 +206,7 @@ class BoardContainer extends Component {
           </Container>
         )}
       </BoardDiv>
-    )
+    );
   }
 }
 
